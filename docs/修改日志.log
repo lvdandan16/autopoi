@@ -184,3 +184,9 @@ autopoi/src/main/java/org/jeecgframework/poi/word/parse/excel/ExcelMapParse.java
 autopoi/src/main/java/org/jeecgframework/poi/word/parse/excel/ExcelEntityParse.java
 autopoi/src/test/java/org/jeecgframework/poi/word/WordNewlineTest.java (+)
 -- author:lvdandan---date:20261020--for: [issues/165] Word模板填充时，文本中存在换行符，无法自动换行 ---
+
+-- author:lvdandan---date:20261022--for: [issues/165] Word表格单元格写入文字后，不保存直接读单元格文字读到空 ---
+autopoi/src/main/java/org/jeecgframework/poi/word/parse/WordTextUtil.java
+autopoi/src/test/java/org/jeecgframework/poi/word/WordNewlineTest.java
+-- author:lvdandan---date:20261022--for: [issues/165] Word表格单元格写入文字后，不保存直接读单元格文字读到空 ---
+

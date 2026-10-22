@@ -173,6 +173,29 @@ public class WordNewlineTest {
 		assertEquals("第一行\n第二行", cell.getText());
 	}
 
+	/** 导出后不保存，直接用 XWPF API 读单元格文字（和写出再读回不同）：要能读到刚写入的文字 */
+	@Test
+	public void cellTextShouldBeReadableBeforeSaving() throws Exception {
+		XWPFDocument doc = new XWPFDocument();
+		XWPFTable table = doc.createTable(1, 1);
+		table.getRow(0).getCell(0).setText("备注");
+		List<Remark> list = new ArrayList<Remark>();
+		list.add(new Remark("第一行\n第二行"));
+		new ExcelEntityParse().parseNextRowAndAddRow(table, 1, new ExcelListEntity(list, Remark.class));
+		XWPFTableCell cell = table.getRow(1).getCell(0);
+		assertEquals("第一行\n第二行", cell.getText());
+		assertEquals(1, breaks(cell));
+	}
+
+	@Test
+	public void setTextOnCellShouldBeVisibleThroughTheCellImmediately() throws Exception {
+		XWPFDocument doc = new XWPFDocument();
+		XWPFTableCell cell = doc.createTable(1, 1).getRow(0).getCell(0);
+		WordTextUtil.setText(cell, "甲\n乙");
+		assertEquals("甲\n乙", cell.getText());
+		assertEquals(1, cell.getParagraphs().size());
+	}
+
 	// ------------------------------------------------------------- 工具类
 
 	@Test

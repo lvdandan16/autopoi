@@ -3,7 +3,6 @@ package org.jeecgframework.poi.word.parse;
 import org.apache.poi.xwpf.usermodel.XWPFParagraph;
 import org.apache.poi.xwpf.usermodel.XWPFRun;
 import org.apache.poi.xwpf.usermodel.XWPFTableCell;
-import org.openxmlformats.schemas.wordprocessingml.x2006.main.CTP;
 
 /**
  * Word 导出时写入文本的工具类。
@@ -36,10 +35,11 @@ public final class WordTextUtil {
 	/**
 	 * 设置单元格的文本（新建一个 run），文本里的换行符转成 Word 的换行。
 	 * 与 XWPFTableCell.setText 的做法一致：写入单元格的第一个段落。
+	 * 用单元格已有的段落对象，不另建：另建的段落对象写入文字后，单元格缓存的段落对象看不到新增的 run，
+	 * 导出后不保存、直接 cell.getText() 会读到空。
 	 */
 	public static void setText(XWPFTableCell cell, String text) {
-		CTP ctP = cell.getCTTc().sizeOfPArray() == 0 ? cell.getCTTc().addNewP() : cell.getCTTc().getPArray(0);
-		XWPFParagraph paragraph = new XWPFParagraph(ctP, cell);
+		XWPFParagraph paragraph = cell.getParagraphs().isEmpty() ? cell.addParagraph() : cell.getParagraphs().get(0);
 		setText(paragraph.createRun(), text);
 	}
 }
